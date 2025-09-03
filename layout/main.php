@@ -1,49 +1,36 @@
 <?php
-// Pastikan sesi dimulai
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 
-// Cek jika pengguna belum login, arahkan ke halaman login
-if (!isset($_SESSION['user'])) {
-    header('Location: ../auth/login.php');
-    exit();
-}
+include base_path('layout/header.php');
+
+// Memuat sidebar
+include base_path('layout/sidebar.php');
 ?>
-<!DOCTYPE html>
-<html lang="id">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= isset($page_title) ? $page_title . ' | ' : '' ?>Sistem Pakar</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-
-    {{-- bootsrap icon --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
-
-    <link rel="stylesheet" href="<?= base_url('config/assets/layout/') ?>css/style.css">
-</head>
-
-<body>
-
+<div class="main">
     <?php
-    include 'header.php';
-    include 'sidebar.php';
+    // Memuat navbar (navigasi atas)
+    include base_path('layout/navbar.php');
     ?>
 
+    <main class="content">
+        <div class="container-fluid p-0">
+            
+            <h1 class="h3 mb-3"><?= isset($page_title) ? htmlspecialchars($page_title) : 'Dashboard' ?></h1>
+            
+            <?php
+            // Memuat file konten utama yang spesifik (misal: gejala/home.php)
+            if (isset($content) && file_exists($content)) {
+                include $content;
+            } else {
+                echo '<div class="alert alert-danger">Error: File konten tidak dapat ditemukan.</div>';
+            }
+            ?>
+
+        </div>
+    </main>
+
     <?php
-    if (isset($content)) {
-        include $content;
-    }
+    // Memuat footer (menutup semua tag)
+    include base_path('layout/footer.php');
     ?>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <?php if (isset($page_specific_js)): ?>
-        <?= $page_specific_js ?>
-    <?php endif; ?>
-</body>
-
-</html>
+</div>

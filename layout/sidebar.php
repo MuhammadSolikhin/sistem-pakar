@@ -1,75 +1,68 @@
 <?php
-// Pastikan session sudah dimulai di file header atau di file ini
-// session_start(); 
-
-// Dapatkan path URL saat ini untuk menandai menu aktif
 $current_path = $_SERVER['REQUEST_URI'];
 ?>
+<nav id="sidebar" class="sidebar js-sidebar">
+  <div class="sidebar-content js-simplebar">
+    <a class="sidebar-brand" href="<?= base_url('dashboard/admin/index.php') ?>">
+      <span class="align-middle">Sistem Pakar</span>
+    </a>
 
-<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav">
+      <li class="sidebar-header">
+        Navigasi
+      </li>
 
-  <ul class="sidebar-nav" id="sidebar-nav">
-
-    <li class="nav-item">
-      <a class="nav-link <?= strpos($current_path, 'dashboard') === false && strpos($current_path, 'index.php') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/admin/index.php') // Ganti ke dashboard user jika perlu ?>">
-        <i class="bi bi-grid"></i>
-        <span>Dashboard</span>
-      </a>
-    </li><?php // Tampilkan Menu ini HANYA untuk Admin dan Pakar ?>
-    <?php if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == 'admin' )) : ?>
-      
-      <li class="nav-heading">Manajemen Data Pakar</li>
-
-      <li class="nav-item">
-        <a class="nav-link <?= strpos($current_path, 'gejala') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/admin/gejala.php') ?>">
-          <i class="bi bi-activity"></i>
-          <span>Data Gejala</span>
+      <li
+        class="sidebar-item <?= (strpos($current_path, 'dashboard') !== false || substr($current_path, -1) === '/') ? 'active' : '' ?>">
+        <a class="sidebar-link" href="<?= base_url('dashboard/admin/index.php') ?>">
+          <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
         </a>
-      </li><li class="nav-item">
-        <a class="nav-link <?= strpos($current_path, 'kecanduan') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/admin/tingkat_kecanduan.php') ?>">
-          <i class="bi bi-patch-question"></i>
-          <span>Data Tingkat Kecanduan</span>
-        </a>
-      </li><li class="nav-item">
-        <a class="nav-link <?= strpos($current_path, 'pengetahuan') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/admin/basis_pengetahuan.php') ?>">
-          <i class="bi bi-journal-rules"></i>
-          <span>Basis Pengetahuan (Aturan)</span>
-        </a>
-      </li><li class="nav-heading">Laporan</li>
+      </li>
 
-       <li class="nav-item">
-        <a class="nav-link <?= strpos($current_path, 'riwayat') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/admin/riwayat_konsultasi.php') ?>">
-          <i class="bi bi-clipboard2-data"></i>
-          <span>Riwayat Konsultasi Siswa</span>
-        </a>
-      </li><?php endif; ?>
+      <?php if (isset($_SESSION['user']) && ($_SESSION['user']['role'] == 'admin')): ?>
+        <li class="sidebar-header">
+          Manajemen Data Pakar
+        </li>
+        <li class="sidebar-item <?= strpos($current_path, 'gejala') !== false ? 'active' : '' ?>">
+          <a class="sidebar-link" href="<?= base_url('dashboard/admin/gejala/') ?>">
+            <i class="align-middle" data-feather="activity"></i> <span class="align-middle">Data Gejala</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="#">
+            <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Tingkat Kecanduan</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="#">
+            <i class="align-middle" data-feather="briefcase"></i> <span class="align-middle">Basis Pengetahuan</span>
+          </a>
+        </li>
+        <li class="sidebar-header">
+          Laporan
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="#">
+            <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Riwayat Konsultasi</span>
+          </a>
+        </li>
+      <?php endif; ?>
 
-
-    <?php // Tampilkan Menu ini HANYA untuk Siswa ?>
-    <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'siswa') : ?>
-
-      <li class="nav-heading">Menu Siswa</li>
-
-      <li class="nav-item">
-        <a class="nav-link <?= strpos($current_path, 'konsultasi.php') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/user/konsultasi.php') ?>">
-          <i class="bi bi-clipboard-check"></i>
-          <span>Mulai Konsultasi</span>
-        </a>
-      </li><li class="nav-item">
-        <a class="nav-link <?= strpos($current_path, 'riwayat.php') === false ? 'collapsed' : '' ?>" href="<?= base_url('dashboard/user/riwayat.php') ?>">
-          <i class="bi bi-clock-history"></i>
-          <span>Riwayat Konsultasi Saya</span>
-        </a>
-      </li><?php endif; ?>
-
-
-    <li class="nav-heading">Akun</li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="<?= base_url('auth/logout.php') ?>">
-        <i class="bi bi-box-arrow-right"></i>
-        <span>Logout</span>
-      </a>
-    </li></ul>
-
-</aside>
+      <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'siswa'): ?>
+        <li class="sidebar-header">
+          Menu Siswa
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="#">
+            <i class="align-middle" data-feather="edit"></i> <span class="align-middle">Mulai Konsultasi</span>
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a class="sidebar-link" href="#">
+            <i class="align-middle" data-feather="clock"></i> <span class="align-middle">Riwayat Saya</span>
+          </a>
+        </li>
+      <?php endif; ?>
+    </ul>
+  </div>
+</nav>
